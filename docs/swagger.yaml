@@ -1,0 +1,316 @@
+basePath: /
+definitions:
+  models.AllTransactionsGetQuery:
+    properties:
+      id:
+        example: 34be95d0-9a41-11ec-b909-0242ac120003
+        format: base64
+        type: string
+      limit:
+        example: 10
+        format: base64
+        type: number
+      page:
+        example: 1
+        format: base64
+        type: number
+      sort_type:
+        example: date_asc
+        format: base64
+        type: string
+    type: object
+  models.GetReportLinkQuery:
+    properties:
+      month:
+        type: integer
+      year:
+        type: integer
+    type: object
+  models.ReserveMoneyQuery:
+    properties:
+      amount:
+        example: 20
+        format: base64
+        type: number
+      order_id:
+        example: someorderid1
+        format: base64
+        type: string
+      service_id:
+        example: someserviceid1
+        format: base64
+        type: string
+      user_id:
+        example: 34be95d0-9a41-11ec-b909-0242ac120003
+        format: base64
+        type: string
+    type: object
+  models.Transaction:
+    properties:
+      created_at:
+        type: string
+      from_id:
+        type: string
+      id:
+        type: string
+      money:
+        type: number
+      operation:
+        type: string
+      to_id:
+        type: string
+    type: object
+  models.User:
+    properties:
+      balance:
+        type: number
+      id:
+        type: string
+    type: object
+  models.UserChangeBalanceQuery:
+    properties:
+      id:
+        example: 34be95d0-9a41-11ec-b909-0242ac120003
+        format: base64
+        type: string
+      money:
+        example: 100
+        format: base64
+        type: number
+    type: object
+  models.UserTransferBalanceQuery:
+    properties:
+      from_id:
+        example: 34be95d0-9a41-11ec-b909-0242ac120003
+        format: base64
+        type: string
+      money:
+        example: 50
+        format: base64
+        type: number
+      to_id:
+        example: 34be95d0-9a41-11ec-b909-0242ac120004
+        format: base64
+        type: string
+    type: object
+info:
+  contact: {}
+  description: api for balance service
+  title: Balance Service API
+  version: "1.0"
+paths:
+  /allTransactions:
+    post:
+      consumes:
+      - application/json
+      description: Get all transactions by uuid
+      parameters:
+      - description: TransactionParams
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/models.AllTransactionsGetQuery'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Transaction'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Get all transactions
+      tags:
+      - transactions
+  /balance/{uid}:
+    get:
+      consumes:
+      - application/json
+      description: get balance by UID
+      parameters:
+      - default: 34be95d0-9a41-11ec-b909-0242ac120003
+        description: User account ID
+        in: path
+        name: uid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: Get account balance
+      tags:
+      - users
+  /changeBalance:
+    post:
+      consumes:
+      - application/json
+      description: change user account balance by uid or create account
+      parameters:
+      - description: Account
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserChangeBalanceQuery'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Change user account balance or create account
+      tags:
+      - users
+  /deReserveMoney:
+    post:
+      consumes:
+      - application/json
+      description: de-reserving money from the user account
+      parameters:
+      - description: Account
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/models.ReserveMoneyQuery'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: de-reserving money from the user account
+      tags:
+      - users
+  /getReportLink:
+    post:
+      consumes:
+      - application/json
+      description: Get all transactions by uuid
+      parameters:
+      - description: ReportsParams
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/models.GetReportLinkQuery'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Get all transactions
+      tags:
+      - reports
+  /recognizeMoney:
+    post:
+      consumes:
+      - application/json
+      description: recognize money from the reserve account
+      parameters:
+      - description: Account
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/models.ReserveMoneyQuery'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: recognize money from the reserve account
+      tags:
+      - users
+  /reserveMoney:
+    post:
+      consumes:
+      - application/json
+      description: reserving money from the user account
+      parameters:
+      - description: Account
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/models.ReserveMoneyQuery'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            type: string
+      summary: reserving money from the user account
+      tags:
+      - users
+  /transferBalance:
+    post:
+      consumes:
+      - application/json
+      description: transferring money from one user account to another
+      parameters:
+      - description: Account
+        in: body
+        name: account
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserTransferBalanceQuery'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Transferring money from one user account to another
+      tags:
+      - users
+swagger: "2.0"

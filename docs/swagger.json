@@ -1,0 +1,472 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "api for balance service",
+        "title": "Balance Service API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "basePath": "/",
+    "paths": {
+        "/allTransactions": {
+            "post": {
+                "description": "Get all transactions by uuid",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "transactions"
+                ],
+                "summary": "Get all transactions",
+                "parameters": [
+                    {
+                        "description": "TransactionParams",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.AllTransactionsGetQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Transaction"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/balance/{uid}": {
+            "get": {
+                "description": "get balance by UID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Get account balance",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "34be95d0-9a41-11ec-b909-0242ac120003",
+                        "description": "User account ID",
+                        "name": "uid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/changeBalance": {
+            "post": {
+                "description": "change user account balance by uid or create account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Change user account balance or create account",
+                "parameters": [
+                    {
+                        "description": "Account",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UserChangeBalanceQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/deReserveMoney": {
+            "post": {
+                "description": "de-reserving money from the user account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "de-reserving money from the user account",
+                "parameters": [
+                    {
+                        "description": "Account",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ReserveMoneyQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/getReportLink": {
+            "post": {
+                "description": "Get all transactions by uuid",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "reports"
+                ],
+                "summary": "Get all transactions",
+                "parameters": [
+                    {
+                        "description": "ReportsParams",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.GetReportLinkQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/recognizeMoney": {
+            "post": {
+                "description": "recognize money from the reserve account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "recognize money from the reserve account",
+                "parameters": [
+                    {
+                        "description": "Account",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ReserveMoneyQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/reserveMoney": {
+            "post": {
+                "description": "reserving money from the user account",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "reserving money from the user account",
+                "parameters": [
+                    {
+                        "description": "Account",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ReserveMoneyQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/transferBalance": {
+            "post": {
+                "description": "transferring money from one user account to another",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "users"
+                ],
+                "summary": "Transferring money from one user account to another",
+                "parameters": [
+                    {
+                        "description": "Account",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UserTransferBalanceQuery"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.AllTransactionsGetQuery": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "base64",
+                    "example": "34be95d0-9a41-11ec-b909-0242ac120003"
+                },
+                "limit": {
+                    "type": "number",
+                    "format": "base64",
+                    "example": 10
+                },
+                "page": {
+                    "type": "number",
+                    "format": "base64",
+                    "example": 1
+                },
+                "sort_type": {
+                    "type": "string",
+                    "format": "base64",
+                    "example": "date_asc"
+                }
+            }
+        },
+        "models.GetReportLinkQuery": {
+            "type": "object",
+            "properties": {
+                "month": {
+                    "type": "integer"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
+        "models.ReserveMoneyQuery": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number",
+                    "format": "base64",
+                    "example": 20
+                },
+                "order_id": {
+                    "type": "string",
+                    "format": "base64",
+                    "example": "someorderid1"
+                },
+                "service_id": {
+                    "type": "string",
+                    "format": "base64",
+                    "example": "someserviceid1"
+                },
+                "user_id": {
+                    "type": "string",
+                    "format": "base64",
+                    "example": "34be95d0-9a41-11ec-b909-0242ac120003"
+                }
+            }
+        },
+        "models.Transaction": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "from_id": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "money": {
+                    "type": "number"
+                },
+                "operation": {
+                    "type": "string"
+                },
+                "to_id": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.User": {
+            "type": "object",
+            "properties": {
+                "balance": {
+                    "type": "number"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.UserChangeBalanceQuery": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "base64",
+                    "example": "34be95d0-9a41-11ec-b909-0242ac120003"
+                },
+                "money": {
+                    "type": "number",
+                    "format": "base64",
+                    "example": 100
+                }
+            }
+        },
+        "models.UserTransferBalanceQuery": {
+            "type": "object",
+            "properties": {
+                "from_id": {
+                    "type": "string",
+                    "format": "base64",
+                    "example": "34be95d0-9a41-11ec-b909-0242ac120003"
+                },
+                "money": {
+                    "type": "number",
+                    "format": "base64",
+                    "example": 50
+                },
+                "to_id": {
+                    "type": "string",
+                    "format": "base64",
+                    "example": "34be95d0-9a41-11ec-b909-0242ac120004"
+                }
+            }
+        }
+    }
+}
